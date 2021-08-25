@@ -1,4 +1,4 @@
-# Fullstack Compose - Just Docker
+# Fullstack! - Just Docker
 
 > fullstack boilerplate based in docker environment. just docker!
 
