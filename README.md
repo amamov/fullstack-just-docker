@@ -4,7 +4,8 @@
 
 - nestjs (typescript)
 - nextjs (typescript)
-- nginx, reverse-proxy
+- mongodb, mongo-express
+- nginx, reverse-proxy, portainer
 - docker, docker-compose, docker-swarm, docker-stack
 - vscode
 
@@ -27,4 +28,14 @@
 
 ### production mode
 
-> `docker swarm init` && `docker stack deploy -c compose.yml`
+> `docker swarm init` && `docker stack deploy -c compose.yml <your_stack_name>`
+
+- `docker stack ls`
+
+- `docker service ls`
+
+- `docker service ps <your_service_name>`
+
+- `docker service logs <your_container_id_in_service>`
+
+- `docker stack rm <your_stack_name>`
