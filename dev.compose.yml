@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./dev.dockerfile
+    ports:
+      - 3000:3000
+    restart: always
+    volumes:
+      - ./frontend:/usr/app
+      - /usr/app/.next
+      - /usr/app/node_modules
+    env_file:
+      - ./env_files/frontend.dev.env
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./dev.dockerfile
+    ports:
+      - 8000:8000
+    restart: always
+    volumes:
+      - ./backend:/usr/app
+      - /usr/app/node_modules
+    env_file:
+      - ./env_files/backend.dev.env
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    volumes:
+      - mongodb_volume:/data/db
+    ports:
+      - "27017-27019:27017-27019"
+    env_file:
+      - ./env_files/mongo.dev.env
+
+  mongoadmin:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    env_file:
+      - ./env_files/mongoadmin.dev.env
+    depends_on:
+      - mongo
+    restart: always
+
+volumes:
+  mongodb_volume:

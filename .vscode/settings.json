@@ -1,0 +1,24 @@
+{
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
+  "eslint.alwaysShowStatus": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "eslint.workingDirectories": [
+    {
+      "directory": "backend",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "frontend",
+      "changeProcessCWD": true
+    }
+  ],
+  "[nginx]": {
+    "editor.defaultFormatter": "raynigon.nginx-formatter"
+  }
+}

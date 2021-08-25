@@ -1,0 +1,76 @@
+# TODO
+
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx_image
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - core_network
+    volumes:
+      # - ./my_local_app:/srv/app_server
+      - nginx_log_volume:/var/log/nginx
+    depends_on:
+      - portainer
+      - testapp
+      - mongoadmin
+
+  testapp:
+    image: testapp_image
+    restart: always
+    networks:
+      - core_network
+    environment:
+      MONGO_URL: "mongodb://admin:1205@mongo:27017"
+      NODE_ENV: "prod"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    volumes:
+      - mongodb_volume:/data/db
+    ports:
+      - "27017-27019:27017-27019"
+    networks:
+      - core_network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: "1205"
+    restart: always
+
+  mongoadmin:
+    image: mongo-express
+    networks:
+      - core_network
+    environment:
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_MONGODB_URL: "mongodb://admin:1205@mongo:27017"
+      ME_CONFIG_OPTIONS_EDITORTHEMEL: "material"
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: me1205
+      ME_CONFIG_SITE_COOKIESECRET: cookiesecret
+      ME_CONFIG_SITE_SESSIONSECRET: sessionsecret
+    depends_on:
+      - mongo
+    restart: always
+
+  portainer:
+    image: portainer/portainer-ce:alpine
+    restart: always
+    networks:
+      - core_network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_volume:/data
+
+volumes:
+  nginx_log_volume:
+  mongodb_volume:
+  portainer_volume:
+
+networks:
+  core_network:
